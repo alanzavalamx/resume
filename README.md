@@ -1,6 +1,6 @@
-# Portafolio — Alan Zavala (React + Vite + Netlify)
+# Portafolio — Alan Zavala (React + Vite + GitHub Pages)
 
-Sitio de portafolio/CV estático, listo para desplegar en Netlify.
+Sitio estático listo para desplegar en **GitHub Pages** usando **GitHub Actions**.
 
 ## Requisitos
 - Node.js 18+
@@ -18,29 +18,19 @@ npm run build
 npm run preview
 ```
 
-## Estructura
-```
-├─ package.json
-├─ netlify.toml
-├─ index.html
-├─ public/
-│  └─ alan-zavala-cv.pdf
-└─ src/
-   ├─ main.jsx
-   ├─ App.jsx
-   └─ components/Portfolio.jsx
-```
+## ¿Por qué funciona en GitHub Pages?
+- El workflow `.github/workflows/deploy.yml` usa acciones oficiales (`configure-pages`, `upload-pages-artifact`, `deploy-pages`) para publicar `dist/`. 
+- En `vite.config.js` el `base` se ajusta automáticamente a `/${REPO}/` cuando se ejecuta en GitHub Actions, lo que reescribe las rutas de assets correctamente para sites de proyecto.
+- `404.html` redirige a `index.html` para evitar errores al refrescar rutas (fallback típico en SPAs).
+- El enlace del CV usa `import.meta.env.BASE_URL` para apuntar a `public/alan-zavala-cv.pdf` bajo el path correcto.
 
-## Despliegue en Netlify
-- **Build command**: `npm run build`
-- **Publish directory**: `dist`
-- El archivo `netlify.toml` ya incluye el redirect `/* -> /index.html 200` para SPA.
-
-1. Crea un repo en GitHub y sube este proyecto.
-2. En Netlify, **Add new site > Import from Git**, conecta el repo y confirma la configuración.
-3. ¡Listo! Cada push hará deploy automático.
+## Pasos para publicar
+1. Crea un repositorio (por ejemplo `alan-portfolio`) y sube estos archivos.
+2. En **Settings ▸ Pages**, selecciona **Source: GitHub Actions**.
+3. Haz un push a `main`. El workflow construirá y publicará automáticamente en GitHub Pages.
+   - La URL quedará como: `https://TU_USUARIO.github.io/REPO/`.
 
 ## Personalización
-- Edita datos de contacto y secciones en `src/components/Portfolio.jsx` (constantes `CONTACT`, `SUMMARY`, `EXPERIENCE`, etc.).
+- Edita datos en `src/components/Portfolio.jsx` (constantes `CONTACT`, `SUMMARY`, etc.).
 - Reemplaza `public/alan-zavala-cv.pdf` por tu CV real.
-- Actualiza enlaces de LinkedIn/GitHub.
+- Actualiza tus enlaces de LinkedIn/GitHub.
